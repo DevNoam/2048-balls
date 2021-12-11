@@ -13,7 +13,7 @@ public class Instantiater : MonoBehaviour
     [SerializeField]
     Transform ts;
     private Vector3 mousePosition;
-    public float moveSpeed = 0.1f;
+    public float moveSpeed = 0.01f;
 
     private void Start()
     {
@@ -22,6 +22,7 @@ public class Instantiater : MonoBehaviour
 
     private Vector3 mousePos;
     public Camera camera;
+    private Touch touch;
     public void Update()
     {
 #if UNITY_STANDALONE || UNITY_EDITOR || UNITY_WEBGL
@@ -31,11 +32,27 @@ public class Instantiater : MonoBehaviour
         if (holdsBall == true && inCoolDown <= 0)
         {
 #if UNITY_STANDALONE || UNITY_EDITOR || UNITY_WEBGL
-                ts.position = Vector3.Lerp(ts.position, new Vector3(mousePos.x, transform.position.y, transform.position.z), moveSpeed);
-            if (Input.GetMouseButtonDown(0))
+            //rb.MovePosition(new Vector3(mousePos.x, transform.position.y, transform.position.z));
+            // called the first time mouse button is pressed
+            if (Input.touchCount > 0)
             {
-                Drop();
+                touch = Input.GetTouch(0);
+                if (touch.phase == TouchPhase.Moved)
+                {
+                    ts.position = new Vector3(ts.position.x + touch.deltaPosition.x * moveSpeed, ts.position.y, ts.position.z);
+                }
+                if (touch.phase == TouchPhase.Ended)
+                {
+                    Drop();
+                    ts.position = new Vector3(0, ts.position.y, ts.position.z);
+                }
             }
+
+
+            //if (Input.GetMouseButtonDown(0))
+            //{
+             //   Drop();
+           // }
 #elif UNITY_IOS || UNITY_ANDROID
 
 #endif
