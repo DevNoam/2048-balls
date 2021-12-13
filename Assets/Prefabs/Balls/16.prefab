@@ -142,6 +142,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isLocked: 0
+  leftLimit: -0.437
+  rightLimit: 0.502
 --- !u!96 &-6748551738226537930
 TrailRenderer:
   serializedVersion: 2
@@ -213,8 +215,8 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.5471698, g: 0.5471698, b: 0.5471698, a: 1}
-      key1: {r: 0.54901963, g: 0.54901963, b: 0.54901963, a: 0}
+      key0: {r: 0.15686275, g: 0.7058824, b: 1, a: 1}
+      key1: {r: 0.15686275, g: 0.69803923, b: 1, a: 0}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}

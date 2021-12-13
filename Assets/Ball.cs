@@ -7,12 +7,13 @@ public class Ball : MonoBehaviour
     public bool isLocked = false;
     private GameObject targetObj;
     private GameManager GM;
+    public float leftLimit;
+    public float rightLimit;
 
     private void Start()
     {
         GM = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
-
     private void OnTriggerStay(Collider other)
     {
         if (other.tag == gameObject.tag)

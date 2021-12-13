@@ -142,6 +142,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isLocked: 0
+  leftLimit: 0
+  rightLimit: 0
 --- !u!96 &-6283430400505694121
 TrailRenderer:
   serializedVersion: 2
@@ -191,8 +193,8 @@ TrailRenderer:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0.0019762847
-        value: 0.27040565
+        time: 0.0017590439
+        value: 0.2578809
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -201,19 +203,19 @@ TrailRenderer:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 1
-        value: 0.07726762
-        inSlope: 0.04825994
-        outSlope: 0.04825994
+        value: 0.10731466
+        inSlope: -0.084963545
+        outSlope: -0.084963545
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0.08893281
+        inWeight: 0.10119041
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.5471698, g: 0.5471698, b: 0.5471698, a: 1}
+      key0: {r: 0.96470594, g: 0.10196079, b: 0.5137255, a: 1}
       key1: {r: 0.54901963, g: 0.54901963, b: 0.54901963, a: 0}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}

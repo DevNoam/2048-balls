@@ -6,13 +6,12 @@ public class Instantiater : MonoBehaviour
 {
     //public bool canShot = true;
     public bool holdsBall = false;
+    public bool canMove = true;
     public float coolDown = 1.2f;
-    private float inCoolDown = 0;
+    public float inCoolDown = 0;
     [SerializeField]
     private GameManager GM;
     [SerializeField]
-    Transform ts;
-    private Vector3 mousePosition;
     public float moveSpeed = 0.01f;
 
     private void Start()
@@ -20,44 +19,13 @@ public class Instantiater : MonoBehaviour
         pickBall();
     }
 
-    private Vector3 mousePos;
     public Camera camera;
     private Touch touch;
-    public void Update()
+    public Transform ts;
+
+    private void Update()
     {
-#if UNITY_STANDALONE || UNITY_EDITOR || UNITY_WEBGL
-        mousePos = Input.mousePosition;
-        mousePos = camera.ScreenToWorldPoint(mousePos);
-#endif
-        if (holdsBall == true && inCoolDown <= 0)
-        {
-#if UNITY_STANDALONE || UNITY_EDITOR || UNITY_WEBGL
-            //rb.MovePosition(new Vector3(mousePos.x, transform.position.y, transform.position.z));
-            // called the first time mouse button is pressed
-            if (Input.touchCount > 0)
-            {
-                touch = Input.GetTouch(0);
-                if (touch.phase == TouchPhase.Moved)
-                {
-                    ts.position = new Vector3(ts.position.x + touch.deltaPosition.x * moveSpeed, ts.position.y, ts.position.z);
-                }
-                if (touch.phase == TouchPhase.Ended)
-                {
-                    Drop();
-                    ts.position = new Vector3(0, ts.position.y, ts.position.z);
-                }
-            }
-
-
-            //if (Input.GetMouseButtonDown(0))
-            //{
-             //   Drop();
-           // }
-#elif UNITY_IOS || UNITY_ANDROID
-
-#endif
-        }
-        else if (holdsBall == false)
+        if (holdsBall == false)
         {
             if (inCoolDown > 0)
                 inCoolDown -= Time.deltaTime;
@@ -66,17 +34,6 @@ public class Instantiater : MonoBehaviour
                 pickBall();
             }
         }
-    }
-
-
-    private void Drop()
-    {
-        holdsBall = false;
-        inCoolDown = coolDown;
-        Transform ball = gameObject.transform.GetChild(0);
-        ball.GetComponent<Rigidbody>().isKinematic = false;
-        ball.GetComponent<Ball>().enabled = true;
-        ball.parent = null;
     }
 
     private void pickBall()
@@ -100,8 +57,12 @@ public class Instantiater : MonoBehaviour
             index = 3;
         }
 
-        GameObject ball = Instantiate(GM.balls[index], ts) as GameObject;
+        GameObject ball = Instantiate(GM.balls[index], transform) as GameObject;
         ball.GetComponent<Rigidbody>().isKinematic = true;
+        ball.AddComponent<instantiaterChild>();
+        ball.GetComponent<instantiaterChild>().instantiater = this;
+
+        ball.GetComponent<Rigidbody>().interpolation = RigidbodyInterpolation.None;
         ball.transform.parent = this.transform;
         holdsBall = true;
     }
