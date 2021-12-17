@@ -4,24 +4,28 @@ using UnityEngine;
 
 public class Instantiater : MonoBehaviour
 {
-    //public bool canShot = true;
-    public bool holdsBall = false;
-    public bool canMove = true;
-    public float coolDown = 1.2f;
-    public float inCoolDown = 0;
+    private bool holdsBall = false;
+    [SerializeField]
+    private float coolDown = 0.8f;
+    [SerializeField]
+    private float inCoolDown = 0;
     [SerializeField]
     private GameManager GM;
     [SerializeField]
-    public float moveSpeed = 0.01f;
+    public float moveSpeed = 1f;
+    public Transform leftLimit;
+    public Transform rightLimit;
 
     private void Start()
     {
         pickBall();
     }
 
-    public Camera camera;
-    private Touch touch;
-    public Transform ts;
+    public void Drop()
+    {
+        holdsBall = false;
+        inCoolDown = coolDown;
+    }
 
     private void Update()
     {
@@ -58,12 +62,12 @@ public class Instantiater : MonoBehaviour
         }
 
         GameObject ball = Instantiate(GM.balls[index], transform) as GameObject;
+        ball.name = GM.balls[index].name;
         ball.GetComponent<Rigidbody>().isKinematic = true;
+        ball.transform.parent = this.transform;
         ball.AddComponent<instantiaterChild>();
         ball.GetComponent<instantiaterChild>().instantiater = this;
-
         ball.GetComponent<Rigidbody>().interpolation = RigidbodyInterpolation.None;
-        ball.transform.parent = this.transform;
         holdsBall = true;
     }
 }

@@ -4,24 +4,23 @@ using UnityEngine;
 
 public class instantiaterChild : MonoBehaviour
 {
-    [SerializeField]
     public Instantiater instantiater;
     public Rigidbody rb;
 
-    public Transform leftLimit;
-    public Transform rightLimit;
-    public float moveSpeed = 1f;
+    private Transform leftLimit;
+    private Transform rightLimit;
     private Touch touch;
+    private LineRenderer lineRenderer;
 
     private void Start()
     {
+        leftLimit = instantiater.leftLimit;
+        rightLimit = instantiater.rightLimit;
         Ball ball = GetComponent<Ball>();
-        //rightLimit = ball.rightLimit;
-        //leftLimit = ball.leftLimit;
         rb = GetComponent<Rigidbody>();
-        leftLimit = GameObject.Find("LeftLimit").GetComponent<Transform>();
-        rightLimit = GameObject.Find("RightLimit").GetComponent<Transform>();
+        lineRenderer = GetComponent<LineRenderer>();
     }
+
 
     public void Update()
     {
@@ -30,7 +29,7 @@ public class instantiaterChild : MonoBehaviour
                 touch = Input.GetTouch(0);
                 if (touch.phase == TouchPhase.Moved)
                 {
-                transform.position = new Vector3(transform.position.x + touch.deltaPosition.x * moveSpeed * Time.deltaTime, transform.position.y, transform.position.z);
+                transform.position = new Vector3(transform.position.x + touch.deltaPosition.x * instantiater.moveSpeed * Time.deltaTime, transform.position.y, transform.position.z);
                 transform.position = new Vector3(Mathf.Clamp(transform.position.x, leftLimit.position.x + transform.localScale.x / 2, rightLimit.position.x - transform.localScale.x / 2), transform.position.y, transform.position.z);
                 }
 
@@ -39,12 +38,19 @@ public class instantiaterChild : MonoBehaviour
             {
                 Drop();
             }
+        Ray ray = new Ray(transform.position, Vector3.down);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+        {
+            lineRenderer.SetPosition(0, transform.position);
+            lineRenderer.SetPosition(1, hit.point);
+        }
+
     }
 
     private void Drop()
     {
-        instantiater.holdsBall = false;
-        instantiater.inCoolDown = instantiater.coolDown;
+        instantiater.Drop();
         rb.isKinematic = false;
         rb.interpolation = RigidbodyInterpolation.Interpolate;
         GetComponent<Ball>().enabled = true;

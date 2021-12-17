@@ -10,13 +10,15 @@ public class Ball : MonoBehaviour
     public float leftLimit;
     public float rightLimit;
 
+
     private void Start()
     {
         GM = GameObject.Find("GameManager").GetComponent<GameManager>();
+        try{Destroy(GetComponent<LineRenderer>());}catch (System.Exception){}
     }
     private void OnTriggerStay(Collider other)
     {
-        if (other.tag == gameObject.tag)
+        if (other.name == gameObject.name)
         {
             Debug.Log("Found Matching ball!");
             if (isLocked == false)
@@ -56,7 +58,7 @@ public class Ball : MonoBehaviour
         GameObject ballToInstantiate = null;
         for (int i = 0; i < GM.balls.Length; i++)
         {
-            if (this.tag == GM.balls[i].tag)
+            if (this.name == GM.balls[i].name)
             {
                 if (i++ > GM.balls.Length)
                 {
@@ -71,6 +73,8 @@ public class Ball : MonoBehaviour
         if (ballToInstantiate != null)
         {
             GameObject ball = Instantiate(ballToInstantiate, this.transform.position, this.transform.rotation) as GameObject;
+            ball.name = ballToInstantiate.name;
+            GM.Merging(transform.name);
             ball.GetComponent<Ball>().enabled = true;
             Debug.Log("Instantaiated");
         }
