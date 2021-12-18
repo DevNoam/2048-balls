@@ -17,6 +17,7 @@ public class instantiaterChild : MonoBehaviour
         leftLimit = instantiater.leftLimit;
         rightLimit = instantiater.rightLimit;
         Ball ball = GetComponent<Ball>();
+        ball.isLocked = true;
         rb = GetComponent<Rigidbody>();
         lineRenderer = GetComponent<LineRenderer>();
     }
@@ -54,8 +55,9 @@ public class instantiaterChild : MonoBehaviour
         rb.isKinematic = false;
         rb.interpolation = RigidbodyInterpolation.Interpolate;
         GetComponent<Ball>().enabled = true;
-        Destroy(GetComponent<instantiaterChild>());
+        GetComponent<Ball>().isLocked = false;
         transform.parent = null;
+        Destroy(GetComponent<instantiaterChild>());
     }
 
 }

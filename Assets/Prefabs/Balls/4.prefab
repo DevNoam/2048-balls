@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 2037386367463376388}
   m_Layer: 0
   m_Name: 4
-  m_TagString: 4
+  m_TagString: Ball
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -258,6 +258,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isLocked: 0
+  rb: {fileID: 3078853121107421601}
   leftLimit: -0.472
   rightLimit: 0.5445
 --- !u!96 &-2174609644961992866

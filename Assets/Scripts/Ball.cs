@@ -5,6 +5,7 @@ using UnityEngine;
 public class Ball : MonoBehaviour
 {
     public bool isLocked = false;
+    private bool hasInstantiated = false;
     private GameObject targetObj;
     private GameManager GM;
     public float leftLimit;
@@ -37,6 +38,17 @@ public class Ball : MonoBehaviour
                 return;
             }
         }
+        if (other.name == "GameOverBarrier" && isLocked == false && hasInstantiated == true)
+        {
+            GM.GameOver();
+        }
+    }
+    private void OnTriggerEnte(Collider other)
+    {
+        if (hasInstantiated == false && other.tag == "Ball" || other.tag == "Border")
+        {
+            hasInstantiated = true;
+        }
     }
 
     private void Update()
@@ -63,6 +75,7 @@ public class Ball : MonoBehaviour
                 if (i++ > GM.balls.Length)
                 {
                     Debug.Log("This is the max value ball can have");
+                    Destroy(this.gameObject);
                 }
                 else
                 {
@@ -73,7 +86,13 @@ public class Ball : MonoBehaviour
         if (ballToInstantiate != null)
         {
             GameObject ball = Instantiate(ballToInstantiate, this.transform.position, this.transform.rotation) as GameObject;
+            if(GM.shrinkBallSizes > 1)
+                ball.transform.localScale /= GM.shrinkBallSizes;
+            else if (GM.shrinkBallSizes < 0)
+                ball.transform.localScale *= -GM.shrinkBallSizes;
             ball.name = ballToInstantiate.name;
+            ball.GetComponent<TrailRenderer>().startWidth = ball.transform.localScale.x;
+            ball.GetComponent<TrailRenderer>().endWidth = (ball.transform.localScale.x / 2f);
             GM.Merging(transform.name);
             ball.GetComponent<Ball>().enabled = true;
             Debug.Log("Instantaiated");
@@ -81,4 +100,6 @@ public class Ball : MonoBehaviour
         //merge
         Destroy(this.gameObject);
     }
+
+    
 }

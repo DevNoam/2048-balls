@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 4607032796432603908}
   m_Layer: 0
   m_Name: 16
-  m_TagString: 16
+  m_TagString: Ball
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -66,7 +66,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5999c0a650d04b940908558aa610eb3c, type: 2}
+  - {fileID: 2100000, guid: 23bbe8f7d4b51944599246ed0d6126d0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -143,6 +143,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isLocked: 0
+  rb: {fileID: 2451921397194702498}
   leftLimit: -0.437
   rightLimit: 0.502
 --- !u!96 &-6748551738226537930

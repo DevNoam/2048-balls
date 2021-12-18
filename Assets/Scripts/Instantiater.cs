@@ -62,11 +62,17 @@ public class Instantiater : MonoBehaviour
         }
 
         GameObject ball = Instantiate(GM.balls[index], transform) as GameObject;
+        if (GM.shrinkBallSizes > 1)
+            ball.transform.localScale /= GM.shrinkBallSizes;
+        else if (GM.shrinkBallSizes < 0)
+            ball.transform.localScale *= -GM.shrinkBallSizes;
         ball.name = GM.balls[index].name;
         ball.GetComponent<Rigidbody>().isKinematic = true;
         ball.transform.parent = this.transform;
         ball.AddComponent<instantiaterChild>();
         ball.GetComponent<instantiaterChild>().instantiater = this;
+        ball.GetComponent<TrailRenderer>().startWidth = ball.transform.localScale.x;
+        ball.GetComponent<TrailRenderer>().endWidth = (ball.transform.localScale.x / 2f);
         ball.GetComponent<Rigidbody>().interpolation = RigidbodyInterpolation.None;
         holdsBall = true;
     }
