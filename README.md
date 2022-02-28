@@ -11,6 +11,8 @@ I developed the game mainly to mimic the game mechanism made by voodoo and not t
 
 You can download the latest APK from [releases](https://github.com/sapirnoam/2048-balls/releases/) (WebGL version)
 
+![App Screenshot](https://i.imgur.com/sCjB1gW.png) 
+
 
 ## Roadmap:
 - End game scene
@@ -22,3 +24,6 @@ You can download the latest APK from [releases](https://github.com/sapirnoam/204
 
 ## Contribute
 Feel free to fork / Contribute to the project. The game works great both for mobile & PC but only lacks menus & Saves functions.
+
+![App Screenshot](https://i.imgur.com/bIOQs1H.png) 
+![App Screenshot](https://i.imgur.com/y7cmcp0.png) 
