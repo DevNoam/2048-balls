@@ -17,6 +17,7 @@ TagManager:
   - 2048
   - Border
   - Ball
+  - endBorder
   layers:
   - Default
   - TransparentFX

@@ -2,14 +2,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using System.Collections;
 public class GameManager : MonoBehaviour
 {
     public GameObject[] balls;
     private bool gameOver = false;
-    //[SerializeField]
-    //private long toReach;    
-    //[SerializeField]
-    //private long highestBall = 0;
     [SerializeField]
     private float score = 0;
     [SerializeField]
@@ -22,6 +19,7 @@ public class GameManager : MonoBehaviour
         get { return howmany2048; }
         set { howmany2048 = value;
             howmany2048Text.text = howmany2048.ToString();
+            PlayerPrefs.SetInt("howmany2048", howmany2048);
         }
     }
     //[SerializeField]
@@ -42,8 +40,13 @@ public class GameManager : MonoBehaviour
         //long.TryParse(balls[balls.Length - 1].gameObject.name, out toReach);
         //toReach *= 2;
         //shrinkSizes();
-
-        //Load data
+        if (PlayerPrefs.GetInt("level") > 0)
+        {
+            score = PlayerPrefs.GetFloat("score");
+            level = PlayerPrefs.GetInt("level");
+            remainingForNextLevel = PlayerPrefs.GetFloat("remainingForNextLevel");
+            howmany2048 = PlayerPrefs.GetInt("howmany2048");
+        }
 
         LevelText.text = level.ToString();
         NextLevelText.text = (level + 1).ToString();
@@ -89,24 +92,40 @@ public class GameManager : MonoBehaviour
             scoreSlider.maxValue = remainingForNextLevel;
             LevelText.text = level.ToString();
             NextLevelText.text = (level + 1).ToString();
+            PlayerPrefs.SetFloat("remainingForNextLevel", remainingForNextLevel);
+            PlayerPrefs.SetInt("level", level);
         }
         scoreSlider.value = score;
         scoreText.text = (remainingForNextLevel - score).ToString();
+        PlayerPrefs.SetFloat("score", score);
     }
 
-    public void newLevel()
-    {
-        //Debug.Log("NEW LEVEL!");
-        //int sceneIndex = SceneManager.GetActiveScene().buildIndex;
-        //Transictaion animation..
-        //SceneManager.LoadScene(sceneIndex++);
-        //toReach *= 2;
-    }
 
     public void GameOver()
     {
         Debug.Log("GAME OVER");
-        //Stop game,
-        //Dark and delete balls.
+        Destroy(GameObject.Find("Instantiater"));
+        PlayerPrefs.DeleteAll();
+        gameOver = true;
+        StartCoroutine(darkenBalls());
+        //Open game over screen
     }
+    IEnumerator darkenBalls() {
+      //Declare a yield instruction.
+      WaitForSeconds wait = new WaitForSeconds(0.03f);
+ 
+        object[] obj = GameObject.FindSceneObjectsOfType(typeof (GameObject));
+        foreach (object o in obj)
+        {
+            GameObject g = (GameObject) o;
+            if (g.tag == "Ball")
+            {
+                g.gameObject.GetComponent<MeshRenderer>().material.color = Color.grey;
+                g.transform.GetChild(0).gameObject.SetActive(false);
+            }
+            yield return wait; //Pause the loop for 3 seconds.
+        }
+   }
+    
 }
+

@@ -10,18 +10,20 @@ public class Ball : MonoBehaviour
     private GameManager GM;
     public float leftLimit;
     public float rightLimit;
+    private Rigidbody rb;
 
 
     private void Start()
     {
         GM = GameObject.Find("GameManager").GetComponent<GameManager>();
+        rb = GetComponent<Rigidbody>();
         try{Destroy(GetComponent<LineRenderer>());}catch (System.Exception){}
     }
     private void OnTriggerStay(Collider other)
     {
         if (other.name == gameObject.name)
         {
-            Debug.Log("Found Matching ball!");
+            //Debug.Log("Found Matching ball!");
             if (isLocked == false)
             {
                 if (other.gameObject.GetComponent<Ball>().isLocked == true)
@@ -30,7 +32,7 @@ public class Ball : MonoBehaviour
                 }
                 isLocked = true;
                 other.gameObject.GetComponent<Ball>().isLocked = true;
-                Debug.Log("Locked");
+                //Debug.Log("Locked");
                 targetObj = other.gameObject;
             }
             else
@@ -38,14 +40,14 @@ public class Ball : MonoBehaviour
                 return;
             }
         }
-        if (other.name == "GameOverBarrier" && isLocked == false && hasInstantiated == true)
+        if (isLocked == false && rb.velocity.magnitude <= 0.1f && other.gameObject.name == "GameOverBarrier")
         {
             GM.GameOver();
         }
     }
-    private void OnTriggerEnte(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
-        if (hasInstantiated == false && other.tag == "Ball" || other.tag == "Border")
+        if (hasInstantiated == false && other.tag == "Ball" || other.tag == "Border" && gameObject.transform.parent == null)
         {
             hasInstantiated = true;
         }
@@ -95,7 +97,7 @@ public class Ball : MonoBehaviour
             ball.GetComponent<TrailRenderer>().endWidth = (ball.transform.localScale.x / 2f);
             GM.Merging(transform.name);
             ball.GetComponent<Ball>().enabled = true;
-            Debug.Log("Instantaiated");
+            //Debug.Log("Instantaiated");
         }
         //merge
         Destroy(this.gameObject);
