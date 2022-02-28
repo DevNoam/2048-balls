@@ -86,10 +86,10 @@ public class Ball : MonoBehaviour
         if (ballToInstantiate != null)
         {
             GameObject ball = Instantiate(ballToInstantiate, this.transform.position, this.transform.rotation) as GameObject;
-            if(GM.shrinkBallSizes > 1)
+            /*if(GM.shrinkBallSizes > 1)
                 ball.transform.localScale /= GM.shrinkBallSizes;
             else if (GM.shrinkBallSizes < 0)
-                ball.transform.localScale *= -GM.shrinkBallSizes;
+                ball.transform.localScale *= -GM.shrinkBallSizes;*/
             ball.name = ballToInstantiate.name;
             ball.GetComponent<TrailRenderer>().startWidth = ball.transform.localScale.x;
             ball.GetComponent<TrailRenderer>().endWidth = (ball.transform.localScale.x / 2f);

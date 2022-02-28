@@ -143,7 +143,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isLocked: 0
-  rb: {fileID: 1220373866245810020}
   leftLimit: 0
   rightLimit: 0
 --- !u!96 &9213798325194071538
