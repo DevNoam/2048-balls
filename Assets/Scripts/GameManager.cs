@@ -40,6 +40,7 @@ public class GameManager : MonoBehaviour
         //long.TryParse(balls[balls.Length - 1].gameObject.name, out toReach);
         //toReach *= 2;
         //shrinkSizes();
+
         if (PlayerPrefs.GetInt("level") > 0)
         {
             score = PlayerPrefs.GetFloat("score");
